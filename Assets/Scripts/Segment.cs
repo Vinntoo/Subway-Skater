@@ -25,6 +25,7 @@ public class Segment : MonoBehaviour
     }
 
 
+
     public void Spawn()
     {
         gameObject.SetActive(true);

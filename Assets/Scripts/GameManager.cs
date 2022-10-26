@@ -19,10 +19,15 @@ public class GameManager : MonoBehaviour
 
     //UI and UI fields
 
-    public TextMeshProUGUI scoreText, coinText, modifierText;
+    public Animator gameCanvas, menuAnim, diamondAnim; 
+
+    public TextMeshProUGUI scoreText, coinText, modifierText, hiscoreText;
     public float score, coinScore, modifierScore;
     private int lastScore;
 
+    //Death Menu
+    public Animator deathMenuAnim;
+    public TextMeshProUGUI deadScoreText, deadCoinText;
 
 
     private void Awake()
@@ -34,6 +39,8 @@ public class GameManager : MonoBehaviour
         modifierText.text = "x" + modifierScore.ToString("0.0");
         coinText.text = coinScore.ToString("0");
         scoreText.text = scoreText.text = score.ToString("0");
+
+        hiscoreText.text = PlayerPrefs.GetInt("Hiscore").ToString();
     }
 
     private void Update()
@@ -42,6 +49,10 @@ public class GameManager : MonoBehaviour
         {
             isGameStarted = true;
             motor.StartRunning();
+            FindObjectOfType<GlacierSpawner>().IsScrolling = true;
+            FindObjectOfType<CameraMotor>().IsMoving = true;
+            gameCanvas.SetTrigger("Show");
+            menuAnim.SetTrigger("Hide");
         }
 
         if (isGameStarted && !IsDead)
@@ -63,6 +74,7 @@ public class GameManager : MonoBehaviour
 
     public void GetCoin()
     {
+        diamondAnim.SetTrigger("Collect");
         coinScore ++;
         coinText.text = coinScore.ToString("0");
         score += COIN_SCORE_AMOUNT;
@@ -77,5 +89,29 @@ public class GameManager : MonoBehaviour
     {
         modifierScore = 1.0f + modifierAmount;
         modifierText.text = "x" + modifierScore.ToString("0.0");
+    }
+
+    public void OnPlayButton()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+    }
+
+    public void OnDeath()
+    {
+        IsDead = true;
+        FindObjectOfType<GlacierSpawner>().IsScrolling = false;
+        deadScoreText.text = score.ToString("0");
+        deadCoinText.text = coinScore.ToString("0");
+        deathMenuAnim.SetTrigger("Dead");
+        gameCanvas.SetTrigger("Hide");
+
+        //check if this is a highscore
+        if(score > PlayerPrefs.GetInt("HiScore"))
+        {
+            float s = score;
+            if (s % 1 == 0)
+                s += 1;
+            PlayerPrefs.SetInt("HiScore", (int)s);
+        }
     }
 }

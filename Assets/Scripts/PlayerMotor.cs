@@ -6,7 +6,7 @@ public class PlayerMotor : MonoBehaviour
 {
 
 
-    private const float LANE_DISTANCE = 2.0f;
+    private const float LANE_DISTANCE = 2.5f;
     private const float TURN_SPEED = 0.05f;
 
     //
@@ -199,7 +199,7 @@ public class PlayerMotor : MonoBehaviour
         //when player dies
         anim.SetTrigger("Death");
         isRunning = false;
-        GameManager.Instance.IsDead = true;
+        GameManager.Instance.OnDeath();
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
