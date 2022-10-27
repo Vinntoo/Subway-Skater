@@ -106,12 +106,12 @@ public class GameManager : MonoBehaviour
         gameCanvas.SetTrigger("Hide");
 
         //check if this is a highscore
-        if(score > PlayerPrefs.GetInt("HiScore"))
+        if(score > PlayerPrefs.GetInt("Hiscore"))
         {
             float s = score;
             if (s % 1 == 0)
                 s += 1;
-            PlayerPrefs.SetInt("HiScore", (int)s);
+            PlayerPrefs.SetInt("Hiscore", (int)s);
         }
     }
 }
