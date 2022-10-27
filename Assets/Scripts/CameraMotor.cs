@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraMotor : MonoBehaviour
 {
     public Transform lookAt; //Our pengu // object we are looking at
-    public Vector3 offset = new Vector3(0, 5.0f, -10.0f);
+    public Vector3 offset = new Vector3(0, 5.0f, -4.0f);
     public Vector3 rotation = new Vector3(35, 0, 0);
 
     public bool IsMoving { set; get; }
